@@ -115,65 +115,71 @@ def imgSplit(img):
 #获取文件名
 def file_name(dir_path):
     f_name = []
-    f_namelist = []
+    f_namelist = []#文件或文件夹名称（图片）
+    
     for files in os.listdir(dir_path):
         f_namelist.append(files)
-        #print('root_dir:', root)  # 当前目录路径
-        #print('sub_dirs:', dirs)  # 当前路径下所有子目录
-        #print('files:', files)  # 当前路径下所有非目录子文件
+
     for i in f_namelist:#分割后缀
         index = i.rfind('.')
         f_name.append(i[:index])
     return f_name,f_namelist
 
 if __name__ == "__main__":
-    dir_path = "D:/Users/84460/Desktop/Oracle_Split/picture/"
-    save_path = "D:/Users/84460/Desktop/Oracle_Split/testpic/"
-    f_name, f_namelist = file_name(dir_path)
 
-    image_len = len(f_name)
-    
-    #image_len=1
-    # imcont=1
+    R_dir_path = "D:/Users/84460/Desktop/Oracle_Split/picture/"
+    R_save_path = "D:/Users/84460/Desktop/Oracle_Split/outpic/"
+    f_name, f_pathlist = file_name(R_dir_path)
 
-    for imcont in range(image_len):
+    for essaycounts in range(len(f_pathlist)):
+        dir_path = R_dir_path + f_pathlist[essaycounts] + "/"
+        save_path = R_save_path + f_pathlist[essaycounts] + "/"
 
-        image_sour = cv2.imread(dir_path + f_namelist[imcont], cv2.IMREAD_COLOR)
-        # image_sour = cv2.imread("D:/Users/84460/Desktop/Oracle_Split/work/063.png", cv2.IMREAD_COLOR)
-        print("Do:"+dir_path + f_namelist[imcont])
-        image_deal = imgDeal(image_sour)# 预处理
-        image_lines = imgLines(image_deal)# 直线检测
-        draw_img, box = imgContours(image_deal)# 轮廓检测
-        image_result = imgPerspective(image_sour, box)# 透视变换
-        cropped, imsplit_a, imsplit_b, imsplit_c = imgSplit(image_result)# 修饰并区域分割
+        f_name, f_namelist = file_name(dir_path)
 
-        imsplit_a_deal = imgDeal_type(imsplit_a)# 预处理
-        imsplit_b_deal = imgDeal_type(imsplit_b)
-        imsplit_c_deal = imgDeal_type(imsplit_c)
+        image_len = len(f_name)
         
-        horizontal_sum = ti.verticalSplit(imsplit_a_deal)# a文字分割
-        peek_ranges = ti.extract_peek_ranges_from_array(horizontal_sum)
-        #peek_ranges_clear = ti.Clear_peekrangesclear(peek_ranges)
-        vertical_peek_ranges, vertical_peek_ranges2d = ti.extract_peek_source(peek_ranges, imsplit_a_deal)# 列
-        ti.imgEachType(peek_ranges, vertical_peek_ranges2d, imsplit_a, save_path, f_name[imcont],'a')# 行，并保存
+        #image_len=1
+        # imcont=1
 
-        horizontal_sum = ti.verticalSplit(imsplit_b_deal)# b文字分割
-        peek_ranges = ti.extract_peek_ranges_from_array(horizontal_sum)
-        #peek_ranges_clear = ti.Clear_peekrangesclear(peek_ranges)
-        vertical_peek_ranges, vertical_peek_ranges2d = ti.extract_peek_source(peek_ranges, imsplit_b_deal)# 列
-        ti.imgEachType(peek_ranges, vertical_peek_ranges2d, imsplit_b, save_path, f_name[imcont],'b')# 行，并保存   
+        for imcounts in range(image_len):
 
-        horizontal_sum = ti.verticalSplit(imsplit_c_deal)# c文字分割
-        peek_ranges = ti.extract_peek_ranges_from_array(horizontal_sum)
-        #peek_ranges_clear = ti.Clear_peekrangesclear(peek_ranges)
-        vertical_peek_ranges, vertical_peek_ranges2d = ti.extract_peek_source(peek_ranges, imsplit_c_deal)# 列
-        ti.imgEachType(peek_ranges, vertical_peek_ranges2d, imsplit_c, save_path, f_name[imcont],'c')# 行，并保存
+            image_sour = cv2.imread(dir_path + f_namelist[imcounts], cv2.IMREAD_COLOR)
+            # image_sour = cv2.imread("D:/Users/84460/Desktop/Oracle_Split/work/063.png", cv2.IMREAD_COLOR)
+            print("path: "+dir_path + f_namelist[imcounts])
+            image_deal = imgDeal(image_sour)# 预处理
+            image_lines = imgLines(image_deal)# 直线检测
+            draw_img, box = imgContours(image_deal)# 轮廓检测
+            image_result = imgPerspective(image_sour, box)# 透视变换
+            cropped, imsplit_a, imsplit_b, imsplit_c = imgSplit(image_result)# 修饰并区域分割
 
-        #cv2.namedWindow("image1",0)
-        #cv2.namedWindow("image2",0)
-        #cv2.namedWindow("image3",0)
-        #cv2.imshow('image1', imsplit_a_deal)
-        #cv2.imshow('image2', imsplit_b_deal)
-        #cv2.imshow('image3', imsplit_c_deal)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
+            imsplit_a_deal = imgDeal_type(imsplit_a)# 预处理
+            imsplit_b_deal = imgDeal_type(imsplit_b)
+            imsplit_c_deal = imgDeal_type(imsplit_c)
+            
+            horizontal_sum = ti.verticalSplit(imsplit_a_deal)# a文字分割
+            peek_ranges = ti.extract_peek_ranges_from_array(horizontal_sum)
+            #peek_ranges_clear = ti.Clear_peekrangesclear(peek_ranges)
+            vertical_peek_ranges, vertical_peek_ranges2d = ti.extract_peek_source(peek_ranges, imsplit_a_deal)# 列
+            ti.imgEachType(peek_ranges, vertical_peek_ranges2d, imsplit_a, save_path, f_name[imcounts],'a')# 行，并保存
+
+            horizontal_sum = ti.verticalSplit(imsplit_b_deal)# b文字分割
+            peek_ranges = ti.extract_peek_ranges_from_array(horizontal_sum)
+            #peek_ranges_clear = ti.Clear_peekrangesclear(peek_ranges)
+            vertical_peek_ranges, vertical_peek_ranges2d = ti.extract_peek_source(peek_ranges, imsplit_b_deal)# 列
+            ti.imgEachType(peek_ranges, vertical_peek_ranges2d, imsplit_b, save_path, f_name[imcounts],'b')# 行，并保存   
+
+            horizontal_sum = ti.verticalSplit(imsplit_c_deal)# c文字分割
+            peek_ranges = ti.extract_peek_ranges_from_array(horizontal_sum)
+            #peek_ranges_clear = ti.Clear_peekrangesclear(peek_ranges)
+            vertical_peek_ranges, vertical_peek_ranges2d = ti.extract_peek_source(peek_ranges, imsplit_c_deal)# 列
+            ti.imgEachType(peek_ranges, vertical_peek_ranges2d, imsplit_c, save_path, f_name[imcounts],'c')# 行，并保存
+
+            #cv2.namedWindow("image1",0)
+            #cv2.namedWindow("image2",0)
+            #cv2.namedWindow("image3",0)
+            #cv2.imshow('image1', imsplit_a_deal)
+            #cv2.imshow('image2', imsplit_b_deal)
+            #cv2.imshow('image3', imsplit_c_deal)
+            # cv2.waitKey(0)
+            # cv2.destroyAllWindows()

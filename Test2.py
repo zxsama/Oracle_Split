@@ -4,6 +4,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # source = cv2.imread("D:/Users/84460/Desktop/Oracle_Split/picture/003.png",0)          # 读图片
+def file_name(dir_path):
+    f_name = []
+    f_namelist = []
+    print(os.listdir(dir_path))
+    
+    for i in f_namelist:#分割后缀
+        index = i.rfind('.')
+        f_name.append(i[:index])
+    return f_name,f_namelist
+
+save_path = "D:/Users/84460/Desktop/Oracle_Split/picture/"
+f_name, f_namelist = file_name(save_path)
+
+image_len = len(f_name)
 
 peek_ranges = [(17, 53), (67, 98), (113, 144), (160, 191), (210, 216), (229, 236), (256, 262), (276, 282),(302,322)] 
 
