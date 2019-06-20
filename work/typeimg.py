@@ -45,7 +45,7 @@ def extract_peek_ranges_from_array(array_vals, minimun_val=1000, minimun_range=2
     
     #imsplit_c用值
     a_len = 6 #两字间距
-    a_len_e = 12 #例如“ 一二 ”的两字间距更大一点
+    a_len_e = 13 #例如“ 一二 ”的两字间距更大一点
     b_len = 18 #单字高度最低限
 
     #合并上下结构文字
@@ -171,7 +171,7 @@ def imgEachType(peek_ranges, vertical_peek_ranges2d, adaptive_threshold, save_pa
             if (not os.path.exists(save_path+block+'/')):           
                 # 创建目录操作函数
                 os.makedirs(save_path+block+'/') 
-            if(w * h > 190 or w < 10):# 若裁剪像素过小则跳过
+            if(w * h > 190 and w > 10 and h > 5):# 若裁剪像素过小则跳过
                 patch = adaptive_threshold[y:y+h,x:x+w]
                 cv2.imwrite(save_path + block+'/'+'m_01_'+f_name+'_'+block+'_'+'%d' %col+'_'+'%d' %row+'.jpg', patch)
                 cnt += 1
