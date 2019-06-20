@@ -7,8 +7,8 @@ from matplotlib import pyplot as plt
 def verticalSplit(img):
     adaptive_threshold = img 
     horizontal_sum = np.sum(adaptive_threshold, axis=0)
-    plt.plot(horizontal_sum, range(horizontal_sum.shape[0]))
-    plt.gca().invert_yaxis()
+    #plt.plot(horizontal_sum, range(horizontal_sum.shape[0]))
+    #plt.gca().invert_yaxis()
     #plt.show()
     return horizontal_sum
 
@@ -132,6 +132,7 @@ def extract_peek_source(peek_ranges, img):
     #cv2.waitKey(0)
 
     vertical_peek_ranges2d = []
+    vertical_peek_ranges = []
     for peek_range in peek_ranges:
         start_x = 0
         end_x = line_seg_adaptive_threshold.shape[0]
@@ -141,8 +142,8 @@ def extract_peek_source(peek_ranges, img):
 
         vertical_sum = np.sum(line_img, axis=1)
 
-        plt.plot(vertical_sum, range(vertical_sum.shape[0]))
-        plt.gca().invert_yaxis()
+        #plt.plot(vertical_sum, range(vertical_sum.shape[0]))
+        #plt.gca().invert_yaxis()
         #plt.show()
 
         vertical_peek_ranges = extract_peek_ranges_from_array(vertical_sum,minimun_val=2,minimun_range=1)
@@ -180,6 +181,6 @@ def imgEachType(peek_ranges, vertical_peek_ranges2d, adaptive_threshold, save_pa
                 row += 1 
         row = 1
         col -= 1 
-            #cv2.rectangle(image_color, pt1, pt2, color)
+    #cv2.rectangle(image_color, pt1, pt2, color)
     #cv2.imshow('char image', image_color)
     #cv2.waitKey(0)

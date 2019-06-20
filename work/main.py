@@ -2,6 +2,7 @@
 import os
 import cv2
 import time
+import gc
 import datetime
 import numpy as np
 import matplotlib.pyplot as plt
@@ -116,9 +117,12 @@ def imgSplit(img):
 
 #获取文件名
 def file_name(dir_path):
+    global f_name
+    global f_namelist#文件或文件夹名称（图片）
+
     f_name = []
-    f_namelist = []#文件或文件夹名称（图片）
-    
+    f_namelist = []
+
     for files in os.listdir(dir_path):
         f_namelist.append(files)
 
@@ -132,7 +136,9 @@ if __name__ == "__main__":
     R_dir_path = "D:/Users/84460/Desktop/Oracle_Split/picture/"
     R_save_path = "D:/Users/84460/Desktop/Oracle_Split/outpic/"
     f_name, f_pathlist = file_name(R_dir_path)
+
     time_all=0
+
     for essaycounts in range(len(f_pathlist)):
         dir_path = R_dir_path + f_pathlist[essaycounts] + "/"
         save_path = R_save_path + f_pathlist[essaycounts] + "/"
@@ -178,11 +184,17 @@ if __name__ == "__main__":
             vertical_peek_ranges, vertical_peek_ranges2d = ti.extract_peek_source(peek_ranges, imsplit_c_deal)# 列
             ti.imgEachType(peek_ranges, vertical_peek_ranges2d, imsplit_c, save_path, f_name[imcounts],'c')# 行，并保存
             
+            # 内存回收
+            del (image_sour, image_deal, image_lines,draw_img,box,image_result,cropped,imsplit_a, 
+                imsplit_b, imsplit_c,horizontal_sum,peek_ranges,vertical_peek_ranges, vertical_peek_ranges2d)
+            gc.collect()
+
             time_end=time.time()
             time_all += time_end - time_start
             time_ = time.strftime('%H:%M:%S', time.gmtime(time_end - time_start))           
             time_all_ = time.strftime('%H:%M:%S', time.gmtime(time_all))          
             print("单次用时： "+ str(time_)  +"\t"+"总用时: " + str(time_all_))
+            
             #cv2.namedWindow("image1",0)
             #cv2.namedWindow("image2",0)
             #cv2.namedWindow("image3",0)
