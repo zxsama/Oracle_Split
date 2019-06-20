@@ -168,12 +168,12 @@ def imgEachType(peek_ranges, vertical_peek_ranges2d, adaptive_threshold, save_pa
             # print(str(x)+'-'+str(y)+'-'+str(w)+'-'+str(h))
 
             # 如果不存在则创建目录
-            if (not os.path.exists(save_path+f_name+'/')):           
+            if (not os.path.exists(save_path+block+'/')):           
                 # 创建目录操作函数
-                os.makedirs(save_path+f_name+'/') 
+                os.makedirs(save_path+block+'/') 
             if(w * h > 190):# 若裁剪像素过小则跳过
                 patch = adaptive_threshold[y:y+h,x:x+w]
-                cv2.imwrite(save_path + f_name+'/'+'m_01_'+f_name+'_'+block+'_'+'%d' %col+'_'+'%d' %row+'.jpg', patch)
+                cv2.imwrite(save_path + block+'/'+'m_01_'+f_name+'_'+block+'_'+'%d' %col+'_'+'%d' %row+'.jpg', patch)
                 cnt += 1
                 pt1 = (x, y)
                 pt2 = (x + w, y + h)
