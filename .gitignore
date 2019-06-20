@@ -125,6 +125,6 @@ dmypy.json
 
 #跳过文件
 *.pdf
-Picture/
-testpic/
-殷墟甲骨文摹释全编/
+/Picture/
+/testpic/
+/殷墟甲骨文摹释全编/
