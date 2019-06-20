@@ -44,9 +44,9 @@ def extract_peek_ranges_from_array(array_vals, minimun_val=1000, minimun_range=2
     #b_len = 18 #单字高度最低限 """
     
     #imsplit_c用值
-    a_len = 6 #两字间距
-    a_len_e = 13 #例如“ 一二 ”的两字间距更大一点
-    b_len = 18 #单字高度最低限
+    a_len = 5 #两字间距
+    a_len_e = 15 #例如“ 一二 ”的两字间距更大一点
+    b_len = 18 #大部分单字高度最低限
 
     #合并上下结构文字
     peek_ranges_new = []
@@ -155,8 +155,8 @@ def extract_peek_source(peek_ranges, img):
 def imgEachType(peek_ranges, vertical_peek_ranges2d, adaptive_threshold, save_path, f_name, block):
     image_color = adaptive_threshold
     cnt = 1
-    row = 1 #行
-    col = len(vertical_peek_ranges2d) #列
+    row = 1 #行（从上向下）
+    col = len(vertical_peek_ranges2d) #列（从右向左）
     color = (0, 0, 255)
     for i, peek_range in enumerate(peek_ranges):
         for vertical_range in vertical_peek_ranges2d[i]:
@@ -171,7 +171,7 @@ def imgEachType(peek_ranges, vertical_peek_ranges2d, adaptive_threshold, save_pa
             if (not os.path.exists(save_path+block+'/')):           
                 # 创建目录操作函数
                 os.makedirs(save_path+block+'/') 
-            if(w * h > 190 and w > 10 and h > 5):# 若裁剪像素过小则跳过
+            if(w * h > 190 and w > 15 and h > 5):# 若裁剪像素过小则跳过
                 patch = adaptive_threshold[y:y+h,x:x+w]
                 cv2.imwrite(save_path + block+'/'+'m_01_'+f_name+'_'+block+'_'+'%d' %col+'_'+'%d' %row+'.jpg', patch)
                 cnt += 1
