@@ -1,6 +1,8 @@
 #main.py
 import os
 import cv2
+import time
+import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
@@ -130,7 +132,7 @@ if __name__ == "__main__":
     R_dir_path = "D:/Users/84460/Desktop/Oracle_Split/picture/"
     R_save_path = "D:/Users/84460/Desktop/Oracle_Split/outpic/"
     f_name, f_pathlist = file_name(R_dir_path)
-
+    time_all=0
     for essaycounts in range(len(f_pathlist)):
         dir_path = R_dir_path + f_pathlist[essaycounts] + "/"
         save_path = R_save_path + f_pathlist[essaycounts] + "/"
@@ -143,10 +145,11 @@ if __name__ == "__main__":
         # imcont=1
 
         for imcounts in range(image_len):
+            time_start=time.time()
+            print("path: "+dir_path + f_namelist[imcounts])
 
             image_sour = cv2.imread(dir_path + f_namelist[imcounts], cv2.IMREAD_COLOR)
-            # image_sour = cv2.imread("D:/Users/84460/Desktop/Oracle_Split/work/063.png", cv2.IMREAD_COLOR)
-            print("path: "+dir_path + f_namelist[imcounts])
+            # image_sour = cv2.imread("D:/Users/84460/Desktop/Oracle_Split/work/063.png", cv2.IMREAD_COLOR)         
             image_deal = imgDeal(image_sour)# 预处理
             image_lines = imgLines(image_deal)# 直线检测
             draw_img, box = imgContours(image_deal)# 轮廓检测
@@ -174,7 +177,12 @@ if __name__ == "__main__":
             #peek_ranges_clear = ti.Clear_peekrangesclear(peek_ranges)
             vertical_peek_ranges, vertical_peek_ranges2d = ti.extract_peek_source(peek_ranges, imsplit_c_deal)# 列
             ti.imgEachType(peek_ranges, vertical_peek_ranges2d, imsplit_c, save_path, f_name[imcounts],'c')# 行，并保存
-
+            
+            time_end=time.time()
+            time_all += time_end - time_start
+            time_ = time.strftime('%H:%M:%S', time.gmtime(time_end - time_start))           
+            time_all_ = time.strftime('%H:%M:%S', time.gmtime(time_all))          
+            print("单次用时： "+ str(time_)  +"\t"+"总用时: " + str(time_all_))
             #cv2.namedWindow("image1",0)
             #cv2.namedWindow("image2",0)
             #cv2.namedWindow("image3",0)

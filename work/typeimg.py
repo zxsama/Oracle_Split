@@ -156,7 +156,7 @@ def imgEachType(peek_ranges, vertical_peek_ranges2d, adaptive_threshold, save_pa
     image_color = adaptive_threshold
     cnt = 1
     row = 1 #行
-    col = 1 #列
+    col = len(vertical_peek_ranges2d) #列
     color = (0, 0, 255)
     for i, peek_range in enumerate(peek_ranges):
         for vertical_range in vertical_peek_ranges2d[i]:
@@ -171,7 +171,7 @@ def imgEachType(peek_ranges, vertical_peek_ranges2d, adaptive_threshold, save_pa
             if (not os.path.exists(save_path+block+'/')):           
                 # 创建目录操作函数
                 os.makedirs(save_path+block+'/') 
-            if(w * h > 190):# 若裁剪像素过小则跳过
+            if(w * h > 190 or w < 10):# 若裁剪像素过小则跳过
                 patch = adaptive_threshold[y:y+h,x:x+w]
                 cv2.imwrite(save_path + block+'/'+'m_01_'+f_name+'_'+block+'_'+'%d' %col+'_'+'%d' %row+'.jpg', patch)
                 cnt += 1
@@ -179,7 +179,7 @@ def imgEachType(peek_ranges, vertical_peek_ranges2d, adaptive_threshold, save_pa
                 pt2 = (x + w, y + h)
                 row += 1 
         row = 1
-        col += 1 
+        col -= 1 
             #cv2.rectangle(image_color, pt1, pt2, color)
     #cv2.imshow('char image', image_color)
     #cv2.waitKey(0)
