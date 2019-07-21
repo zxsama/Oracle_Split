@@ -71,7 +71,7 @@ def imgContours(img):
     img8 = img
     img8 = cv2.convertScaleAbs(img, img8, 1, 0); # 转换输入数组元素成8位无符号整型
     #image_Con = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-    #opencv4中findContours输出两个
+    #opencv4中findContours输出两个值
     (cnts, _) = cv2.findContours(img8, 
         cv2.RETR_EXTERNAL, 
         cv2.CHAIN_APPROX_SIMPLE)
