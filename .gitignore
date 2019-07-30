@@ -128,3 +128,4 @@ dmypy.json
 *.png
 *.jpg
 *.zip
+!Picture/01/0002.png
