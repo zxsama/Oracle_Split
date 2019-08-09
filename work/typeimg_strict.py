@@ -207,7 +207,53 @@ def imageCompose(new_peek_ranges, img, row_height):
     #cv2.waitKey (0)
 
     return new_img
+	
+#将列变为行
+def imageCompose(new_peek_ranges, img, vertical_peek_ranges2d, adaptive_threshold):
+    
+    xTemp = 20#边距20
+    yTemp = 20#边距20
+    Htemp = 0
+    cnt = 1
+    row_b = 1 #行（从上向下）
+    col_b = len(vertical_peek_ranges2d) #列（从右向左）
+    col_width = 0
+    position_width = 20
+    #print("len(new_peek_ranges):",len(new_peek_ranges))
+    for i in range(len(new_peek_ranges)):
+        col_width += (new_peek_ranges[i][1]-new_peek_ranges[i][0])
 
+    col_width += len(new_peek_ranges)*20 + 20 #每 列间隔20像素
+
+    # 新建图
+    new_img = img.copy()
+    new_img = cv2.resize(img,(1400,img.shape[1]))
+    new_img = cv2.rectangle(new_img, (0, 0), (1400,img.shape[1]), (255, 255, 255), -1)
+
+    for i, peek_range in enumerate(new_peek_ranges):#输出b
+        for vertical_range in vertical_peek_ranges2d[i]:
+            x = peek_range[0]
+            y = vertical_range[0]
+            w = peek_range[1] - x
+            h = vertical_range[1] - y
+            if(Htemp < h):
+                Htemp = h
+            if(w * h > 190 and w > 15 and h > 5 and vertical_range[0] > 1410):# 若裁剪像素过小则跳过
+                patch = adaptive_threshold[y:y+h,x:x+w]
+                new_img[yTemp:yTemp+h, xTemp:xTemp+w] = patch #指定位置填充，大小要一样才能填充
+                row_b += 1
+                cnt += 1
+
+                xTemp += w + 3 #3为单字间距
+        xTemp = 20 #20为边距
+        yTemp += Htemp + 30 #30为行间距
+
+        Htemp = 0
+        row_b = 1
+        col_b -= 1
+    cv2.imshow("合成", new_img)
+    cv2.waitKey (0)
+    return new_img
 # 分割出每列的文字
 def imgEachType(peek_ranges, vertical_peek_ranges2d, adaptive_threshold, save_path, f_name, block1, block2, new_img_B, new_img_C):
     image_color = adaptive_threshold
